@@ -1,0 +1,24 @@
+#logging
+logging:
+  level:
+    com.jmd.cafe.order: debug
+
+# server
+server:
+  error:
+    whitelabel:
+      enabled: false
+    port: 8080
+
+#fiegn
+feign:
+  server:
+    event:
+      name: "event-server"
+      url: "http://localhost:8081/"
+    statistics:
+      name: "statistics-server"
+      url: "http://localhost:8082/"
+
+
+
