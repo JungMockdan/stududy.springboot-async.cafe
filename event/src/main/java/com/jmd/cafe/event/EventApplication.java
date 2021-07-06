@@ -1,4 +1,4 @@
-package com.jmd.cafe.order;
+package com.jmd.cafe.event;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
