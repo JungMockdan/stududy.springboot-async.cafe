@@ -12,14 +12,9 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Data
-@NoArgsConstructor
 @Service
 public class UseCaseAStrategy implements UseCaseStrategy {
-    private EventServerCallerFeign feign;
 
-    public UseCaseAStrategy(final EventServerCallerFeign feign) {
-        this.feign = feign;
-    }
 
     @Override
     public int getIntValue() {
@@ -36,7 +31,7 @@ public class UseCaseAStrategy implements UseCaseStrategy {
 
     @Async
     @Override
-    public CompletableFuture<String> manageProcess(EventRequest eventRequest) {
+    public CompletableFuture<String> manageProcess(EventRequest eventRequest, EventServerCallerFeign feign) {
         log.debug("7. UseCase-A-Strategy> start");
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
             try {

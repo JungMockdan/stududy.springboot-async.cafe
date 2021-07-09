@@ -23,6 +23,7 @@ public class ManageKeyService {
     private final ManageKeyRepository manageKeyRepository;
     private final EventService eventService;
     private final EventServerCallerFeign feign;
+    private final StrategyEngine engine;
     public ManagekeyResponse doSomething(ManageKeyRequest manageKeyRequest) {
         log.debug("2. ManageKeyService>order start");
         // 1. save the order
@@ -50,11 +51,11 @@ public class ManageKeyService {
 //        coffee.getJobDone(eventRequest);
 
         Conditions conditions = new Conditions("","","");
-        StrategyEngine engine = new StrategyEngine();
+
         inboundManageKey.setUseCaseStrategy(engine.getStrategy(conditions));
 
         log.debug("#. strategy : "+ inboundManageKey.getIntValue()+"원");
-        inboundManageKey.getJobDone(eventRequest);
+        inboundManageKey.getJobDone(eventRequest,feign);
 
 
         log.debug("5. ManageKeyService> end");

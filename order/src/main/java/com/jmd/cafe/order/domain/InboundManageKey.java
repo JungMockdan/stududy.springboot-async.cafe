@@ -1,5 +1,6 @@
 package com.jmd.cafe.order.domain;
 
+import com.jmd.cafe.order.fiegn.EventServerCallerFeign;
 import com.jmd.cafe.order.fiegn.dto.EventRequest;
 import com.jmd.cafe.order.domain.strategy.UseCaseStrategy;
 import lombok.Getter;
@@ -21,7 +22,7 @@ public class InboundManageKey {
     public int getIntValue(){
         return  useCaseStrategy.getIntValue();
     }
-    public CompletableFuture<String> getJobDone(EventRequest request){
-        return useCaseStrategy.manageProcess(request);
+    public CompletableFuture<String> getJobDone(EventRequest request, EventServerCallerFeign feign){
+        return useCaseStrategy.manageProcess(request,feign);
     }
 }

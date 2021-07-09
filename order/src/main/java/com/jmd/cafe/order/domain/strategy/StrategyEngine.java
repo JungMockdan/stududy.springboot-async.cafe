@@ -1,8 +1,13 @@
 package com.jmd.cafe.order.domain.strategy;
 
+import com.jmd.cafe.order.fiegn.EventServerCallerFeign;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class StrategyEngine {
     private static List<UseCaseStrategy> strategy = new ArrayList<>();
 

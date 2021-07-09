@@ -18,11 +18,6 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Service
 public class UseCaseBStrategy implements UseCaseStrategy {
-    private EventServerCallerFeign feign;
-
-    public UseCaseBStrategy(final EventServerCallerFeign feign) {
-        this.feign = feign;
-    }
 
     @Override
     public int getIntValue() {
@@ -61,7 +56,7 @@ public class UseCaseBStrategy implements UseCaseStrategy {
     }
     @Async
     @Override
-    public <T extends EventRequest> CompletableFuture<String> manageProcess(EventRequest eventRequest) {
+    public <T extends EventRequest> CompletableFuture<String> manageProcess(EventRequest eventRequest,EventServerCallerFeign feign) {
         log.debug("UseCase-B-Strategy> start");
         CompletableFuture<String> future
                 = CompletableFuture.supplyAsync(() -> {
