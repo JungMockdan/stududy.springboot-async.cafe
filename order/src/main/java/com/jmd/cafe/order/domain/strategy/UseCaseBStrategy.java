@@ -56,7 +56,7 @@ public class UseCaseBStrategy implements UseCaseStrategy {
     }
     @Async
     @Override
-    public <T extends EventRequest> CompletableFuture<String> manageProcess(EventRequest eventRequest,EventServerCallerFeign feign) {
+    public CompletableFuture<String> manageProcess(EventRequest eventRequest,EventServerCallerFeign feign) {
         log.debug("UseCase-B-Strategy> start");
         CompletableFuture<String> future
                 = CompletableFuture.supplyAsync(() -> {
