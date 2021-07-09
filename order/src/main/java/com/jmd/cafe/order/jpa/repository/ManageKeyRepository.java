@@ -1,4 +1,4 @@
-package com.jmd.cafe.order.api.repository;
+package com.jmd.cafe.order.jpa.repository;
 
 import com.jmd.cafe.order.jpa.entity.OrderRequestEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

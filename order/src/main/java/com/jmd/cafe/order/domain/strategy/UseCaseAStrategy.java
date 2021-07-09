@@ -12,9 +12,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Data
-@Service
 public class UseCaseAStrategy implements UseCaseStrategy {
-
 
     @Override
     public int getIntValue() {

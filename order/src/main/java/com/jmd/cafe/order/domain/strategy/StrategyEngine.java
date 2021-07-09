@@ -1,7 +1,7 @@
 package com.jmd.cafe.order.domain.strategy;
 
 import com.jmd.cafe.order.fiegn.EventServerCallerFeign;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,6 +19,11 @@ public class StrategyEngine {
 //        .
 //        .
     }
+    /*private final EventServerCallerFeign feign;
+
+    public StrategyEngine(EventServerCallerFeign feign) {
+        this.feign = feign;
+    }*/
 
     public UseCaseStrategy getStrategy(Conditions expression) {
         return strategy

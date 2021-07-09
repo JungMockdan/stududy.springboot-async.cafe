@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Data
 @NoArgsConstructor
-@Service
 public class UseCaseBStrategy implements UseCaseStrategy {
 
     @Override
