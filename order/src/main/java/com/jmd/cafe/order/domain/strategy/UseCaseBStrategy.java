@@ -25,7 +25,7 @@ public class UseCaseBStrategy implements UseCaseStrategy {
 
     @Override
     public String getStringValue() {
-        String product = "B-Strategy!!";
+        String product = "Use-Case-B-Strategy!!";
         log.debug(product);
         return product;
     }
