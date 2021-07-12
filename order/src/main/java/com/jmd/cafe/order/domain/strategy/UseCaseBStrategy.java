@@ -2,11 +2,10 @@ package com.jmd.cafe.order.domain.strategy;
 
 import com.jmd.cafe.order.fiegn.EventServerCallerFeign;
 import com.jmd.cafe.order.fiegn.dto.EventRequest;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,21 +13,11 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Slf4j
-@Data
-@NoArgsConstructor
+@RequiredArgsConstructor
+@Component
 public class UseCaseBStrategy implements UseCaseStrategy {
 
-    @Override
-    public int getIntValue() {
-        return 5500;
-    }
-
-    @Override
-    public String getStringValue() {
-        String product = "Use-Case-B-Strategy!!";
-        log.debug(product);
-        return product;
-    }
+    final EventServerCallerFeign feign;
 
     public List<CompletableFuture<String>> test(EventRequest eventRequest) {
         List<EventRequest> s = new ArrayList<>();
@@ -55,7 +44,7 @@ public class UseCaseBStrategy implements UseCaseStrategy {
     }
     @Async
     @Override
-    public CompletableFuture<String> manageProcess(EventRequest eventRequest,EventServerCallerFeign feign) {
+    public CompletableFuture<String> manageProcess(EventRequest eventRequest) {
         log.debug("UseCase-B-Strategy> start");
         CompletableFuture<String> future
                 = CompletableFuture.supplyAsync(() -> {
@@ -67,8 +56,7 @@ public class UseCaseBStrategy implements UseCaseStrategy {
             return feign.event(eventRequest).getResult();
         }).thenCompose(s ->
                 CompletableFuture.supplyAsync(() -> feign.event2(eventRequest).getResult())
-        ).thenCompose(s -> CompletableFuture.supplyAsync(this::getStringValue)
-        )
+        ).thenApply(s->"finished-A")
                 ;
 
         log.debug("UseCase-B-Strategy> end");
@@ -76,7 +64,7 @@ public class UseCaseBStrategy implements UseCaseStrategy {
     }
 
     @Override
-    public boolean evaluate(Conditions expression) {
-        return false;
+    public StrategyName getStrategyName() {
+        return StrategyName.USE_CASE_B;
     }
 }

@@ -4,26 +4,24 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmd.cafe.order.api.dto.ManagekeyResponse;
+import com.jmd.cafe.order.domain.strategy.*;
 import com.jmd.cafe.order.jpa.repository.ManageKeyRepository;
-import com.jmd.cafe.order.domain.InboundManageKey;
-import com.jmd.cafe.order.domain.strategy.Conditions;
-import com.jmd.cafe.order.domain.strategy.StrategyEngine;
-import com.jmd.cafe.order.fiegn.EventServerCallerFeign;
 import com.jmd.cafe.order.fiegn.dto.EventRequest;
 import com.jmd.cafe.order.jpa.entity.OrderRequestEntity;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import com.jmd.cafe.order.api.dto.ManageKeyRequest;
 
 @Slf4j
+@FieldDefaults(level= AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 @Service
 public class ManageKeyService {
     private final ManageKeyRepository manageKeyRepository;
-    private final EventServerCallerFeign feign;
-    private final StrategyEngine engine;
-
+    private final StrategyFactory strategyFactory;
     public ManagekeyResponse doSomething(ManageKeyRequest manageKeyRequest) {
         log.debug("2. ManageKeyService>order start");
         // 1. save the order
@@ -36,11 +34,10 @@ public class ManageKeyService {
         EventRequest eventRequest = EventRequest.builder().id("id").build();
 
         Conditions conditions = new Conditions("","","");
-        InboundManageKey inboundManageKey=new InboundManageKey();
-        inboundManageKey.setUseCaseStrategy(engine.getStrategy(conditions));
-        log.debug("#. strategy : "+ inboundManageKey.getIntValue()+"원");
-        inboundManageKey.getJobDone(eventRequest,feign);
+        UseCaseStrategy strategy =
+                strategyFactory.findStrategy(StrategyName.evaluateConditionOfStrategy(conditions));
 
+        strategy.manageProcess(eventRequest);
 
         log.debug("5. ManageKeyService> end");
         return ManagekeyResponse.builder().result("Success").build();
